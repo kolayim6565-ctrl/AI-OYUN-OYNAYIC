@@ -1,0 +1,17 @@
+name: Otomatik APK Yapici
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Buildozer ile APK Bas
+        uses: ArtemGovorov/buildozer-action@v1
+        with:
+          command: buildozer -v android debug
+      - name: APK'yi Yukle
+        uses: actions/upload-artifact@v3
+        with:
+          name: Yapay_Zeka_Oyun_Asistani
+          path: bin/*.apk
