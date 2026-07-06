@@ -14,11 +14,17 @@ jobs:
           sudo apt-get install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libsqlite3-dev libgdbm-dev libssl-dev libffi-dev libmpdec-dev libexpat1-dev liblzma-dev uuid-dev
           pip3 install --user --upgrade buildozer cython virtualenv
 
+      - name: Android Lisanslarini Otomatik Onayla
+        run: |
+          mkdir -p ~/.android
+          touch ~/.android/repositories.cfg
+          # Android SDK manager ile gelen tüm lisansları otomatik kabul ediyoruz
+          yes | (export PATH=$PATH:~/.local/bin; buildozer android licenses) || true
+
       - name: Buildozer ile APK Derle
         run: |
           export PATH=$PATH:~/.local/bin
           buildozer -v android debug
-        # İlk seferde lisans sözleşmelerini otomatik onaylaması için ayar
         env:
           BUILDOZER_ALLOW_KIVY_NEW_DESIGN: 1
 
