@@ -3,15 +3,23 @@ on: [push, workflow_dispatch]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
+      - name: Java Kurulumu
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
       - name: Buildozer ile APK Bas
-        uses: ArtemGovorov/buildozer-action@v1
+        uses: Actions-R-Us/buildozer-action@v2
         with:
           command: buildozer -v android debug
+
       - name: APK'yi Yukle
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Yapay_Zeka_Oyun_Asistani
           path: bin/*.apk
